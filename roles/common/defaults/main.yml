@@ -1,2 +1,29 @@
 ---
-# defaults file for common
+
+# List of package names to be installed.
+# e.g.
+# common_packages:
+#  - lsscsi
+#  - ltrace
+#  - strace
+common_packages: []
+
+
+# Root and user shell prompts.
+common_prompt_root: '\h# '
+common_prompt_user: '\h$ '
+
+
+# List of user dictionaries for group and user creation.
+# e.g.
+# common_usersgroups:
+#  - name: user
+#    state: present
+#    uid: 1000
+#    gid: 1000
+#    groups: [ wheel, libvirt, docker ]
+#    comment: User
+#    home: /home/user
+#    shell: /bin/bash
+#    password: '$6$...$...'
+common_usersgroups: []

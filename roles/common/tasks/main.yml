@@ -1,2 +1,62 @@
 ---
-# tasks file for common
+
+- name: Packages
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    "{{ common_packages }}"
+
+
+- name: Prompt
+  template:
+    src: prompt.sh.j2
+    dest: /etc/profile.d/prompt.sh
+    owner: root
+    group: root
+    mode: 0644
+
+
+- name: Secondary groups
+  group:
+    name: "{{ item }}"
+    state: present
+    system: 'yes'
+  with_items:
+    "{{ common_usersgroups |
+          map(attribute = 'groups') | flatten | unique | sort }}"
+
+
+- name: Remove absent users
+  user:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items:
+    "{{ common_usersgroups |
+          selectattr('state', 'equalto', 'absent') | list }}"
+
+
+- name: Primary groups
+  group:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    system: 'no'
+    gid: "{{ item.gid }}"
+  with_items:
+    "{{ common_usersgroups }}"
+
+
+- name: Add present users
+  user:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    uid: "{{ item.uid }}"
+    group: "{{ item.name }}"
+    groups: "{{ item.groups }}"
+    comment: "{{ item.comment }}"
+    home: "{{ item.home }}"
+    shell: "{{ item.shell }}"
+    password: "{{ item.password }}"
+  with_items:
+    "{{ common_usersgroups |
+          selectattr('state', 'equalto', 'present') | list }}"
