@@ -1,0 +1,23 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Add primary group user1002
+      group:
+        name: user1002
+        state: present
+        system: 'no'
+        gid: 1002
+
+    - name: Add user user1002
+      user:
+        name: user1002
+        state: present
+        uid: 1002
+        group: 1002
+        groups: []
+        comment: User 1002
+        home: /home/user1002
+        shell: /bin/bash
+        password: '*'

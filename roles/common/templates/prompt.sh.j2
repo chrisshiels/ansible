@@ -1,0 +1,5 @@
+#!/bin/sh
+
+
+[ `/usr/bin/id -u` == "0" ] && PS1="{{ common_prompt_root }}" || PS1="{{ common_prompt_user }}"
+export PS1

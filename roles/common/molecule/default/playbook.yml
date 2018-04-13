@@ -1,0 +1,39 @@
+---
+
+- name: Converge
+  hosts: all
+  vars:
+    common_packages:
+      - lsscsi
+      - ltrace
+      - strace
+    common_usersgroups:
+      - name: user1000
+        state: present
+        uid: 1000
+        gid: 1000
+        groups: [ wheel, libvirt ]
+        comment: User 1000
+        home: /home/user1000
+        shell: /bin/bash
+        password: '*'
+      - name: user1001
+        state: present
+        uid: 1001
+        gid: 1001
+        groups: [ wheel, docker ]
+        comment: User 1001
+        home: /home/user1001
+        shell: /bin/bash
+        password: '*'
+      - name: user1002
+        state: absent
+        uid: 1002
+        gid: 1002
+        groups: []
+        comment: User 1002
+        home: /home/user1002
+        shell: /bin/bash
+        password: '*'
+  roles:
+    - role: common
