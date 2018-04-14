@@ -10,7 +10,7 @@ Ansible roles with Molecule.
     host$ . virtualenv/bin/activate
     (virtualenv) host$ pip install -r requirements.txt
 
-    host$ # Workaround CentOS / RHEL / Fedora SELinux vs. Ansible snafu.
+    (virtualenv) host$ # Workaround CentOS / RHEL / Fedora SELinux vs. Ansible snafu.
     (virtualenv) host$ rpm -q -l libselinux-python
     /usr/lib64/python2.7/site-packages/_selinux.so
     /usr/lib64/python2.7/site-packages/selinux
