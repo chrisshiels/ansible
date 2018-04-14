@@ -1,0 +1,31 @@
+---
+
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: instance-docker
+    image: centos/systemd
+    command: /usr/sbin/init
+    privileged: True
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+    options:
+      x: [ "ANSIBLE0010" ]
+scenario:
+  name: default
+verifier:
+  name: testinfra
+  options:
+    verbose: true
+  lint:
+    name: flake8
+    options:
+      ignore: E111, E126, E201, E202

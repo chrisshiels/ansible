@@ -1,0 +1,31 @@
+---
+
+- name: Package dependencies
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+
+
+- name: Repository
+  yum_repository:
+    name: docker-ce
+    description: Docker CE Stable
+    baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+    gpgcheck: 'yes'
+    gpgkey: https://download.docker.com/linux/centos/gpg
+
+
+- name: Package
+  yum:
+    name: docker-ce
+    state: latest
+
+
+- name: Service
+  service:
+    name: docker
+    state: started
