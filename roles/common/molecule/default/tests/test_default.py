@@ -12,7 +12,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
                          [ 'lsscsi',
                            'ltrace',
                            'strace' ])
-def test_packages(host, name):
+def test_package(host, name):
   package = host.package(name)
   assert package.is_installed
 
