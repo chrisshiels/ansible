@@ -1,4 +1,5 @@
 ---
+
 dependency:
   name: galaxy
 driver:
@@ -6,7 +7,7 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: instance
+  - name: instance-common
     image: centos:7
 provisioner:
   name: ansible
