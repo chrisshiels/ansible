@@ -1,5 +1,47 @@
 ---
 
+- name: Discover all repositories
+  find:
+    paths: /etc/yum.repos.d
+    patterns: '*.repo'
+  register: repositories
+
+
+- name: Discover Ansible managed repositories
+  find:
+    paths: /etc/yum.repos.d
+    patterns: '*.repo'
+    contains: '.*# Ansible managed.'
+  register: repositoriesansiblemanaged
+
+
+- name: Filter paths
+  set_fact:
+    repositoriespaths: "{{ repositories.files
+                           | map(attribute = 'path') | list }}"
+    repositoriesansiblemanagedpaths: "{{ repositoriesansiblemanaged.files
+                                         | map(attribute = 'path') | list }}"
+
+
+- name: Disable non-Ansible managed repositories
+  shell: "mv {{ item }} {{ item }}~"
+  with_items:
+    "{{ repositoriespaths | difference(repositoriesansiblemanagedpaths) }}"
+  tags:
+    - skip_ansible_lint
+
+
+- name: Repositories
+  template:
+    src: yum.repo.j2
+    dest: "/etc/yum.repos.d/{{ item.name }}.repo"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    "{{ common_repos }}"
+
+
 - name: Packages
   yum:
     name: "{{ item }}"

@@ -1,0 +1,5 @@
+# Ansible managed.
+[{{ item.name }}]
+{% for k, v in item.config | dictsort %}
+{{ k }} = {{ v }}
+{% endfor %}
