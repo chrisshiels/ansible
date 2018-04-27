@@ -9,6 +9,34 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 
 @pytest.mark.parametrize('name',
+                         [ 'CentOS-Base',
+                           'CentOS-CR',
+                           'CentOS-Debuginfo',
+                           'CentOS-Media',
+                           'CentOS-Sources',
+                           'CentOS-Vault',
+                           'CentOS-fasttrack' ])
+def test_renamed_yum_repository(host, name):
+  f = host.file('/etc/yum.repos.d/%s.repo' % ( name ))
+  assert not f.exists
+  f1 = host.file('/etc/yum.repos.d/%s.repo~' % ( name ))
+  assert f1.exists
+
+
+@pytest.mark.parametrize('name',
+                         [ 'base',
+                           'updates',
+                           'extras' ])
+def test_yum_repository(host, name):
+  f = host.file('/etc/yum.repos.d/%s.repo' % ( name ))
+  assert f.exists
+  assert f.is_file
+  assert f.user == 'root'
+  assert f.group == 'root'
+  assert f.mode == 0644
+
+
+@pytest.mark.parametrize('name',
                          [ 'lsscsi',
                            'ltrace',
                            'strace' ])

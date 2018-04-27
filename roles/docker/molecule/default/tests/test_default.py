@@ -25,7 +25,11 @@ def test_yum_repository(host):
   assert f.user == 'root'
   assert f.group == 'root'
   assert f.mode == 0644
-  assert f.contains('Docker CE Stable')
+  assert f.contains('\[docker-ce\]')
+  assert f.contains('name = Docker CE Stable')
+  assert f.contains('baseurl = https://download.docker.com/linux/centos/7/$basearch/stable')
+  assert f.contains('gpgcheck = 1')
+  assert f.contains('gpgkey = https://download.docker.com/linux/centos/gpg')
 
 
 def test_package(host):

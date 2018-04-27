@@ -28,4 +28,4 @@ verifier:
   lint:
     name: flake8
     options:
-      ignore: E111, E126, E201, E202
+      ignore: E111, E126, E201, E202, E501

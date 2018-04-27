@@ -1,1 +1,17 @@
 ---
+
+# List of yum repositories.
+# e.g.
+# docker_repos:
+#  - name: name
+#    config:
+#      key: value
+#      .
+#      .
+docker_repos:
+  - name: docker-ce
+    config:
+      name: Docker CE Stable
+      baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+      gpgcheck: 1
+      gpgkey: https://download.docker.com/linux/centos/gpg
